@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 
 namespace DO
 {
 
-    public class Bus
+	public class Bus
     {
         public string Immatriculation { get; set; }
         public BusStatus BusStatus { get; set; }

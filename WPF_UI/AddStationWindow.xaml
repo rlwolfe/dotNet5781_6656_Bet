@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WPF_UI"
         xmlns:BO="clr-namespace:BO;assembly=BL" x:Class="WPF_UI.AddStationWindow"
         mc:Ignorable="d"
-        Title="AddStationWindow" Height="450" Width="800" Closing="Window_Closing">
+        Title="AddStationWindow" Height="300" Width="400" Closing="Window_Closing">
     <Grid>
 
         <Grid x:Name="grid1" VerticalAlignment="Center" HorizontalAlignment="Center" >
@@ -20,14 +20,13 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Label VerticalAlignment="Center" Grid.Row="0" Margin="3" HorizontalAlignment="Left" Grid.Column="1" Content=": קוד התחנה"/>
-            <TextBox x:Name="busStationKeyTextBox" Width="120" VerticalAlignment="Center" Grid.Row="0" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="0"/>
+            <TextBox x:Name="busStationKeyTextBox" Width="120" VerticalAlignment="Center" Grid.Row="0" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="0" MaxLength="5" MaxLines="1"/>
             <Label VerticalAlignment="Center" Grid.Row="1" Margin="3" HorizontalAlignment="Left" Grid.Column="1" Content=": כתובת התחנה"/>
             <TextBox x:Name="addressTextBox" Width="120" VerticalAlignment="Center"  Grid.Row="1" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="0"/>
             <Label VerticalAlignment="Center" Grid.Row="2" Margin="3" HorizontalAlignment="Left" Grid.Column="1" Content="שם התחנה"/>
             <TextBox x:Name="stationNameTextBox" Width="120" VerticalAlignment="Center" Grid.Row="2" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="0"/>
         </Grid>
-        <Button x:Name="AddStationButton" Content="הוסף תחנה" HorizontalAlignment="Left" Margin="285,309,0,0" VerticalAlignment="Top" Width="75" Click="AddStationButton_Click"/>
-        <Button x:Name="CancelButton" Content="ביטול" HorizontalAlignment="Left" Margin="434,309,0,0" VerticalAlignment="Top" Width="75" Click="CancelButton_Click" />
-
+        <Button x:Name="AddStationButton" Content="הוסף תחנה" HorizontalAlignment="Left" Margin="213,207,0,0" VerticalAlignment="Top" Width="75" Click="AddStationButton_Click"/>
+        <Button x:Name="CancelButton" Content="ביטול" HorizontalAlignment="Left" Margin="98,207,0,0" VerticalAlignment="Top" Width="75" Click="CancelButton_Click" />
     </Grid>
 </Window>

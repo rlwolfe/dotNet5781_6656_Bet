@@ -1,8 +1,6 @@
 ﻿using System;
 using BLApi;
 using APIDL;
-using BO;
-using DO;
 using System.Linq;
 using System.Collections.Generic;
 
@@ -84,7 +82,6 @@ namespace BL
 			//Action<DO.BusStation> newAction = action(BusLineDoBoAdapter(DO.BusStation));
 			//dl.UpdateStation(id, newAction);
 		}
-
 
 		public BO.BusStation GetBusStation(int key)
 		{
@@ -191,7 +188,7 @@ namespace BL
 					dl.AddFollowingStations(station1, station2);
 			}
 
-			dl.AddLine(BusLineBoDoAdapter(newLine));//add lint to can then add lisStations with LineId (attributed in dl.AddLine)
+			dl.AddLine(BusLineBoDoAdapter(newLine));
 
 			//3. Create corresponding line stations
 			int lineId = dl.GetLine(newLine.BusLineNumber, AreasAdapter(newLine.Area)).Id;
@@ -224,7 +221,7 @@ namespace BL
 			}
 			catch
 			{
-				throw new ArgumentException("This Line not exist " + lineBo.BusLineNumber);
+				throw new ArgumentException("This Line does not exist " + lineBo.BusLineNumber);
 			}
 		}
 
@@ -329,10 +326,6 @@ namespace BL
 		{
 			dl.DeleteLineStation(LineStationBoDoAdapter(lineStation));
 		}
-		public void DeleteLineStation(int id)
-		{
-
-		}
 		#endregion
 
 		#region LineTrip
@@ -372,6 +365,10 @@ namespace BL
 		public void AddLineTrip(BO.LineTrip trip)
 		{
 			dl.AddLineTrip(LineTripBoDoAdapter(trip));
+		}
+		public void AddLineTrip(int lineId, int stationKey)
+		{
+			dl.AddLineTrip(lineId, stationKey);
 		}
 		public void DeleteLineTrip(BO.LineTrip trip)
 		{

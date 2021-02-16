@@ -1,23 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using BLApi;
 using BO;
 
 namespace WPF_UI
 {
     /// <summary>
-    /// Logique d'interaction pour UpdateStation.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class UpdateStationWindow : Window
     {
@@ -56,7 +45,10 @@ namespace WPF_UI
                                          let line = bl.GetBusLine(lineId)
                                          select (" קו " + line.BusLineNumber + " : לכיוון " + bl.GetBusStation(line.LastStationKey).StationName);
 
-            LinesPassCbBox.SelectedItem = LinesPassCbBox.Items.GetItemAt(0);
+            if ((DataContext as BusStation).LinesThatPass.Count() != 0)
+                LinesPassCbBox.SelectedItem = LinesPassCbBox.Items.GetItemAt(0);
+            else
+                LinesPassCbBox.ItemsSource = "-";
         }
     }
 }

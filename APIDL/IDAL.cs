@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DO;
 
 namespace APIDL
-
 {
-    //CRUD Logic:
-    // Create - add new instance
-    // Request - ask for an instance or for a collection
-    // Update - update properties of an instance
-    // Delete - delete an instance
-    public interface IDAL
+	//CRUD Logic:
+	// Create - add new instance
+	// Request - ask for an instance or for a collection
+	// Update - update properties of an instance
+	// Delete - delete an instance
+	public interface IDAL
     {
         #region Station
         IEnumerable<DO.BusStation> GetAllStations();
@@ -61,8 +57,15 @@ namespace APIDL
         DO.LineTrip GetLineTrip(int lineId, int stationKey);
         IEnumerable<DO.LineTrip> GetAllLineTrips();
         void AddLineTrip(LineTrip trip);
+        void AddLineTrip(int lineId, int stationKey);
         void DeleteLineTrip(LineTrip trip);
         TimeSpan CalculateDistance(LineTrip trip);
-        #endregion
-    }
+		#endregion
+
+		#region User
+
+
+		#endregion
+
+	}
 }

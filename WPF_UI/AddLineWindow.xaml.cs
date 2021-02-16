@@ -1,30 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using BLApi;
 using BO;
 
 namespace WPF_UI
 {
-    /// <summary>
-    /// Interaction logic for AddLineWindow.xaml
-    /// </summary>
-    public partial class AddLineWindow : Window
+	/// <summary>
+	/// Interaction logic for AddLineWindow.xaml
+	/// </summary>
+	public partial class AddLineWindow : Window
     {
         static IBL bl = BlFactory.GetBL();
         static BusLine busLine;
-        static ObservableCollection<int> stations = new ObservableCollection<int>();
         public AddLineWindow()
         {
             InitializeComponent();
@@ -33,9 +23,6 @@ namespace WPF_UI
 
             busLine = new BusLine();
             DataContext = busLine;
-
-            cbFirstStop.ItemsSource = bl.GetAllBusStations();
-            cbLastStop.ItemsSource = bl.GetAllBusStations();
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -51,13 +38,22 @@ namespace WPF_UI
                 LineStationsListBox.Items.Add(currentItemText);
             else
                 MessageBox.Show("תחנה זו כבר ברשימה");
+            LineStationsListBox.SelectedIndex = 0;
         }
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
+            if (LineStationsListBox.Items.IsEmpty)
+                return;
+
             int currentItemIndex = LineStationsListBox.SelectedIndex;
+
+            if (currentItemIndex == -1)
+                currentItemIndex += LineStationsListBox.Items.Count;
+
             LineStationsListBox.Items.RemoveAt(currentItemIndex);
         }
+        
         private void tb_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             int key = (int)e.Key;
@@ -66,45 +62,39 @@ namespace WPF_UI
 
         private void AddLineButton_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                if (tbLineNumber.Text.Length == 0 || cbArea.SelectedIndex == -1 || cbFirstStop.SelectedIndex == -1 || cbLastStop.SelectedIndex == -1)
-                    throw new Exception();
+			try
+			{
+                string error = "";
+				if (tbLineNumber.Text.Length == 0)
+                    error += "חייב למלא מספר קו\n";
 
-                else
+				if (cbArea.SelectedIndex == -1)
+                    error +="חייב לבחור אזור\n";
+
+                if (LineStationsListBox.Items.Count < 2)
+                    error += "אין מספיק תחנות בקו\n";
+
+                if (error != "")
                 {
-                    busLine = new BusLine();
-                    DataContext = busLine;
-
-                    busLine.AllStationsOfLine = from string item in LineStationsListBox.Items
-                                                select int.Parse(item.Substring(6, 5));
-
-                    string lbFirst = (string)LineStationsListBox.Items.GetItemAt(0);
-                    int lbf = int.Parse(lbFirst.Substring(6, 5));
-                    BusStation firstStation = cbFirstStop.SelectedValue as BusStation;
-                    if (firstStation.BusStationKey != lbf)
-                        busLine.AllStationsOfLine.Append(firstStation.BusStationKey);
-
-
-                    string lbLast = (string)LineStationsListBox.Items.GetItemAt(LineStationsListBox.Items.Count - 1);
-                    int lbl = int.Parse(lbLast.Substring(6, 5));
-                    BusStation lastStation = cbLastStop.SelectedValue as BusStation;
-                    if (lastStation.BusStationKey != lbl)
-                        busLine.AllStationsOfLine.Append(lastStation.BusStationKey);
-
-                    busLine.BusLineNumber = int.Parse(tbLineNumber.Text);
-                    busLine.Area = (BO.Areas)cbArea.SelectedItem;
-                    busLine.FirstStationKey = firstStation.BusStationKey;
-                    busLine.LastStationKey = lastStation.BusStationKey;
-                    busLine.TotalDistance = double.Parse(tbTotalDistance.Text);
-                    busLine.TotalTime = double.Parse(tbTotalTime.Text);
-
-
-                    bl.AddBusLine(busLine);
-                    LineStationsListBox.Items.Clear();
-                    Close();
+                    MessageBox.Show(error);
+                    return;
                 }
-            }
+
+				busLine = new BusLine();
+				DataContext = busLine;
+
+				busLine.AllStationsOfLine = from string item in LineStationsListBox.Items
+											select int.Parse(item.Substring(6, 5));
+
+				busLine.BusLineNumber = int.Parse(tbLineNumber.Text);
+				busLine.Area = (BO.Areas)cbArea.SelectedItem;
+				busLine.FirstStationKey = busLine.AllStationsOfLine.First();
+				busLine.LastStationKey = busLine.AllStationsOfLine.Last();
+
+				bl.AddBusLine(busLine);
+				LineStationsListBox.Items.Clear();
+				Close();
+			}
             catch (Exception ex)
             {
                 MessageBox.Show("Error thrown: " + ex);

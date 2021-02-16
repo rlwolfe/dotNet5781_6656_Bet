@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Reflection;
 
 namespace BO
 {
-    static class Tools
+	static class Tools
     {
         public static string ToStringProperty<T>(this T t, string suffix = "")
         {

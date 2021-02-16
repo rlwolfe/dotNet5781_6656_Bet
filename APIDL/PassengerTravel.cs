@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DO
 {
-    public class PassengerTravel
+	public class PassengerTravel
     {
         public int TravelId { get; set; }
         public string UserId { get; set; }

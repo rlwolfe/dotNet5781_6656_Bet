@@ -1,26 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using BLApi;
 using BO;
 
 namespace WPF_UI
 {
-    /// <summary>
-    /// Interaction logic for UpdateLineWindow.xaml
-    /// </summary>
-    public partial class UpdateLineWindow : Window
+	/// <summary>
+	/// Interaction logic for UpdateLineWindow.xaml
+	/// </summary>
+	public partial class UpdateLineWindow : Window
     {
         static IBL bl = BlFactory.GetBL();
         public BusLine busLine;
@@ -59,17 +49,32 @@ namespace WPF_UI
                 LineStationsListBox.Items.Add(currentItemText);
             else
                 MessageBox.Show("תחנה זו כבר ברשימה");
+            LineStationsListBox.SelectedIndex = 0;
         }
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
             int currentItemIndex = LineStationsListBox.SelectedIndex;
+            if (LineStationsListBox.Items.IsEmpty)
+                return;
+            else if (currentItemIndex == -1)
+                currentItemIndex += LineStationsListBox.Items.Count;
+
             LineStationsListBox.Items.RemoveAt(currentItemIndex);
-            LineStationsListBox.SelectedIndex = currentItemIndex;
+            LineStationsListBox.SelectedIndex = currentItemIndex - 1;
+
+            if (LineStationsListBox.SelectedIndex == -1)
+                LineStationsListBox.SelectedIndex = 0;
         }
 
         private void UpdateLineButton_Click(object sender, RoutedEventArgs e)
         {
+            if (LineStationsListBox.Items.Count < 2)
+            {
+                MessageBox.Show("אין מספיק תחנות בקו");
+                return;
+            }
+
             try
             {
                 busLine.TotalDistance = double.Parse(tbTotalDistance.Text);
@@ -93,6 +98,7 @@ namespace WPF_UI
                 MessageBox.Show("Error thrown: " + ex);
             }
         }
+        
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             MainWindow mainWindow = new MainWindow();

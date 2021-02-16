@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BO;
-using DO;
 
 namespace BLApi
 {
-    public interface IBL
+	public interface IBL
     {
         #region BusLine
         DO.Areas AreasAdapter(BO.Areas areaBO);
@@ -41,15 +36,15 @@ namespace BLApi
         void AddLineStation(BO.LineStation lineStation);
         void UpdateLineStation(BO.LineStation lineStation);
         void DeleteLineStation(BO.LineStation lineStation);
-        void DeleteLineStation(int id);
-
         #endregion
 
         #region LineTrip
         BO.LineTrip GetLineTrip(int lineId, int stationKey);
         IEnumerable<BO.LineTrip> GetTripsForABus(BO.BusLine line);
+        IEnumerable<BO.LineTrip> GetTripsForAStation(BO.BusLine line, BO.BusStation station);
         IEnumerable<BO.LineTrip> GetAllLineTrips();
         void AddLineTrip(BO.LineTrip trip);
+        void AddLineTrip(int lineId, int stationKey);
         void DeleteLineTrip(BO.LineTrip trip);
         TimeSpan CalculateDistance(BO.LineTrip trip);
         #endregion
