@@ -534,8 +534,9 @@ namespace DL
                                       }).FirstOrDefault();
 
             if (myNewLineTrip == null)
-                AddLineTrip(lineId, stationKey);
-                //throw new ArgumentException("LineTrip doesn't exist");
+            {
+                myNewLineTrip = AddLineTrip(lineId, stationKey);
+            }
             
             myNewLineTrip.Departure.Add(CalculateDistance(myNewLineTrip));
             return myNewLineTrip;
@@ -557,13 +558,7 @@ namespace DL
         }
         public void AddLineTrip(LineTrip trip)
         {
-            //XElement idRootElem = XMLTools.LoadListFromXMLElement(idPath);
             XElement lineTripRootElem = XMLTools.LoadListFromXMLElement(lineTripPath);
-
-            //XElement elementId = (from id in idRootElem.Elements()
-            //                      where id.Element("Type").Value == "lineTrip"
-            //                      select id).FirstOrDefault();
-            //trip.TripId = Convert.ToInt32(elementId.Value) + 1;
 
             LineTrip myLineTrip = (from lineTrip in lineTripRootElem.Elements()
                                    where Convert.ToInt32(lineTrip.Element("Id").Value) == trip.TripId
@@ -595,7 +590,7 @@ namespace DL
 
             lineTripRootElem.Add(lineTripElem);
         }
-        public void AddLineTrip(int lineId, int stationKey)
+        public LineTrip AddLineTrip(int lineId, int stationKey)
 		{
             XElement idRootElem = XMLTools.LoadListFromXMLElement(idPath);
             XElement lineTripRootElem = XMLTools.LoadListFromXMLElement(lineTripPath);
@@ -613,11 +608,20 @@ namespace DL
                                           new XElement("Frequency", "120"),
                                           new XElement("Destination", GetStation(GetLine(lineId).LastStationKey).Address));
 
-            elementId.Element("Value").Value = (Convert.ToInt32(elementId.Value) + 1).ToString();
+            elementId.Element("Value").Value = (Convert.ToInt32(elementId.Element("Value").Value) + 1).ToString();
             XMLTools.SaveListToXMLElement(idRootElem, idPath);
 
-
-        }
+            return new LineTrip()
+			{
+				TripId = Convert.ToInt32(newLineTripElem.Element("tripId").Value),
+				LineNumber = GetLine(lineId).BusLineNumber,
+                LineIdTrip = lineId,
+                StationKey = stationKey,
+                Departure = Convert.ToDateTime(newLineTripElem.Element("Departure").Value),
+                Frequency = 120,
+                Destination = GetStation(GetLine(lineId).LastStationKey).Address
+            };
+		}
         public void DeleteLineTrip(LineTrip trip)
         {
             XElement lineTripRootElem = XMLTools.LoadListFromXMLElement(lineTripPath);

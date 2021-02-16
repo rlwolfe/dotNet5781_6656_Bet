@@ -366,9 +366,10 @@ namespace BL
 		{
 			dl.AddLineTrip(LineTripBoDoAdapter(trip));
 		}
-		public void AddLineTrip(int lineId, int stationKey)
+		public BO.LineTrip AddLineTrip(int lineId, int stationKey)
 		{
-			dl.AddLineTrip(lineId, stationKey);
+			return GetLineTrip(lineId, stationKey);
+			//return dl.AddLineTrip(lineId, stationKey);
 		}
 		public void DeleteLineTrip(BO.LineTrip trip)
 		{

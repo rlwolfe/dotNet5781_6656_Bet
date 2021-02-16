@@ -57,7 +57,7 @@ namespace APIDL
         DO.LineTrip GetLineTrip(int lineId, int stationKey);
         IEnumerable<DO.LineTrip> GetAllLineTrips();
         void AddLineTrip(LineTrip trip);
-        void AddLineTrip(int lineId, int stationKey);
+        DO.LineTrip AddLineTrip(int lineId, int stationKey);
         void DeleteLineTrip(LineTrip trip);
         TimeSpan CalculateDistance(LineTrip trip);
 		#endregion

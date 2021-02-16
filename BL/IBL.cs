@@ -44,7 +44,7 @@ namespace BLApi
         IEnumerable<BO.LineTrip> GetTripsForAStation(BO.BusLine line, BO.BusStation station);
         IEnumerable<BO.LineTrip> GetAllLineTrips();
         void AddLineTrip(BO.LineTrip trip);
-        void AddLineTrip(int lineId, int stationKey);
+        BO.LineTrip AddLineTrip(int lineId, int stationKey);
         void DeleteLineTrip(BO.LineTrip trip);
         TimeSpan CalculateDistance(BO.LineTrip trip);
         #endregion

@@ -145,6 +145,12 @@ namespace WPF_UI
             Close();
         }
 
+		private void simButton_Click(object sender, RoutedEventArgs e)
+		{
+			LineTripWindow tripWindow = new LineTripWindow();
+			tripWindow.Show();
+            Close();
+		}
         private void tb_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             int key = (int)e.Key;
@@ -167,5 +173,6 @@ namespace WPF_UI
         {
 
         }
-    }
+
+	}
 }

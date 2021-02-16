@@ -132,32 +132,34 @@ namespace WPF_UI
                 BusStation busStation = bl.GetBusStation(int.Parse(station.Substring(6, 5)));
 
                 List<string> timesList = (from time in timeInfo
-                                          where busStation.BusStationKey == int.Parse(time[2]) &&
-                                          TimeSpan.Parse(time[1]).Hours.Equals(TimeSpan.Parse(timerTB.Text).Hours)
+                                          where busStation.BusStationKey == int.Parse(time[2])
                                           select "קו מספר: " + time[0] + " מגיע בשעה - " + time[1]).ToList();
 
                 timesList = (from lineId in busStation.LinesThatPass
                              let trip = bl.GetLineTrip(lineId, busStation.BusStationKey)
-                             where trip.Departure.Hour.Equals(TimeSpan.Parse(timerTB.Text).Hours)
-                             select (lineId + "%" + "קו מספר: " + bl.GetBusLine(lineId).BusLineNumber + " מגיע בשעה - " + trip.Departure.ToString(@"hh\:mm"))).ToList();
+                             select (lineId + "%" + "קו מספר: " + bl.GetBusLine(lineId).BusLineNumber +
+                                        " מגיע בשעה - " + trip.Departure.ToString(@"hh\:mm"))).ToList();
 
                 foreach (string line in timesList)
                 {
                     int lineId = int.Parse(line.Split('%')[0]);
                     string toDisplay = line.Split('%')[1];
+                    TimeSpan time = TimeSpan.Parse(line.Split('-')[1].Trim());
 
-                    //if(station == && busId == && time == hour)
-                    lbBuses.Items.Add(toDisplay);
+                    TimeSpan current = TimeSpan.Parse(timerTB.Text);
+
+                    if(current.Hours.Equals(time.Hours))
+                        lbBuses.Items.Add(toDisplay);
 
                     string bus = toDisplay.Split(' ')[2];
                     BusLine busLine = bl.GetBusLine(lineId);
                     DateTime start = Convert.ToDateTime(toDisplay.Split('-')[1].Trim());
                     TimeSpan freq = new TimeSpan(0, bl.GetLineTrip(busLine.Id, busStation.BusStationKey).Frequency, 0);
 
-                    TimeSpan current = TimeSpan.Parse(timerTB.Text);
-                    for (TimeSpan iter = current.Add(freq); iter < new TimeSpan(24, 0, 0); iter = iter.Add(freq))
+                    for (TimeSpan iter = TimeSpan.Parse(start.ToShortTimeString()).Add(freq); iter < new TimeSpan(24, 0, 0); iter = iter.Add(freq))
                     {
-                        lbBuses.Items.Add("קו מספר: " + bus + " מגיע בשעה - " + iter.ToString(@"hh\:mm"));
+                        if(iter.Hours.Equals(current.Hours))
+                            lbBuses.Items.Add("קו מספר: " + bus + " מגיע בשעה - " + iter.ToString(@"hh\:mm"));
                     }
                 }
                 //LineTrip trip = from t in bl.GetAllLineTrips()
@@ -175,15 +177,13 @@ namespace WPF_UI
             int key = (int)e.Key;
             e.Handled = !(key > 33 && key < 44 || key > 73 && key < 84 || key == 2);
         }
-        private void backButton_Click(object sender, RoutedEventArgs e)
+        private void endButton_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Environment.Exit(Environment.ExitCode);
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
         }
 
     }

@@ -21,7 +21,7 @@
         <Label Content="-שעה אחת שווה ל" HorizontalAlignment="Left" Height="30" Margin="630,97,0,0" VerticalAlignment="Top" Width="142" FontSize="16"/>
         <Label Content="שניות" HorizontalAlignment="Left" Height="30" Margin="493,96,0,0" VerticalAlignment="Top" Width="50" FontSize="16"/>
         <Button x:Name="setButton" Content="הגדר" HorizontalAlignment="Left" Height="30" Margin="435,96,0,0" VerticalAlignment="Top" Width="50" Click="setButton_Click"/>
-        <Button x:Name="backButton" Content="חזרה" HorizontalAlignment="Left" Height="36" Margin="648,345,0,0" VerticalAlignment="Top" Width="100" FontSize="18" Click="backButton_Click"/>
+        <Button x:Name="endButton" Content="סיום" HorizontalAlignment="Left" Height="36" Margin="648,345,0,0" VerticalAlignment="Top" Width="100" FontSize="18" Click="endButton_Click"/>
 
     </Grid>
 </Window>
