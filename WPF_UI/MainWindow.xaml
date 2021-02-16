@@ -5,8 +5,106 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_UI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="מערכת תחנות וקווים - מיני פרויקט תשפ''א" TextBlock.TextAlignment="Right" Height="593.969" Width="990.385">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
+        <TabControl x:Name="tabs" Grid.Row="1" Margin="20" FlowDirection="RightToLeft">
+            <TabItem x:Name="stops" Header="תחנות אוטובוס" FlowDirection="LeftToRight" RenderTransformOrigin="0.5,0.509">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="10*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <DataGrid x:Name="BusStationsDg" AutoGenerateColumns="False" IsReadOnly="True" 
+                                HorizontalScrollBarVisibility="Visible" HorizontalAlignment="Right" Height="315" 
+                                Margin="20" VerticalAlignment="Center" Width="570" Grid.Row="0"
+                                SelectionChanged="BusStationsDg_SelectionChanged" MouseDoubleClick="Update_Click">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Width="*" x:Name="ActionsOnStation" Header="פעולות על התחנה">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid x:Name="ActionsOnStationGrid">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Button x:Name="ViewArrivals" Content="לוח זמנים" HorizontalContentAlignment="Center" 
+                                                    Grid.Column="0" Margin="2" Click="ViewArrivals_Click"/>
+                                            <Button x:Name="Delete" Content="מחיקה" HorizontalContentAlignment="Center" 
+                                                    Grid.Column="1" Margin="2" Click="Delete_Click"/>
+                                            <Button x:Name="Update" Content="עדכון" HorizontalContentAlignment="Center" 
+                                                    Grid.Column="2" Margin="2" Click="Update_Click"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn x:Name="StationNameColumn" Width="Auto" Header="שם התחנה" 
+                                                Binding="{Binding StationName}"/>
+                            <DataGridTextColumn x:Name="StationsKeyColumn" Width="*" Header="קוד תחנה" 
+                                                Binding="{Binding BusStationKey}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <Label Content=": קווים בתחנה" HorizontalContentAlignment="Right" HorizontalAlignment="Left" 
+                            VerticalAlignment="Center" Width="136" Height="26" Margin="155,30,0,309.6"/>
+                    <ListBox x:Name="LinesPassListBox" HorizontalAlignment="Left" Height="160" HorizontalContentAlignment="Right"
+                                Margin="43,56,0,0" VerticalAlignment="Top" Width="248"/>
+
+                    <Button x:Name="AddStationButton" Content="הוסף תחנה" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0, 0, 20, 30" Click="AddStationButton_Click" Width="63" Grid.RowSpan="2"/>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="buses" Header="קווי אוטובוס" FlowDirection="LeftToRight">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="10*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <DataGrid x:Name="BusLinesDg" AutoGenerateColumns="False" IsReadOnly="True" 
+                                HorizontalScrollBarVisibility="Visible" HorizontalAlignment="Right" Height="315" 
+                                Margin="20" VerticalAlignment="Center" Width="570" Grid.Row="0"
+                                SelectionChanged="BusLinesDg_SelectionChanged" MouseDoubleClick="UpdateLine_Click">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Width="*" x:Name="ActionsOnLine" Header="פעולות על הקו">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid x:Name="ActionsOnLineGrid">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Button x:Name="DeleteLine" Content="מחיקה" HorizontalContentAlignment="Center" 
+                                                    Grid.Column="0" Margin="2" Click="DeleteLine_Click"/>
+                                            <Button x:Name="UpdateLine" Content="עדכון" HorizontalContentAlignment="Center" 
+                                                    Grid.Column="1" Margin="2" Click="UpdateLine_Click"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn x:Name="LastStationColumn" Width="*" Header="תחנה סופית" 
+                                                Binding="{Binding LastStationKey}"/>
+                            <DataGridTextColumn x:Name="FirstStationColumn" Width="*" Header="תחנת מוצא" 
+                                                Binding="{Binding FirstStationKey}"/>
+                            <DataGridTextColumn x:Name="LineAreaColumn" Width="Auto" Header="איזור הקו" 
+                                                Binding="{Binding Area}"/>
+                            <DataGridTextColumn x:Name="LineNumberColumn" Width="*" Header="מספר הקו" 
+                                                Binding="{Binding BusLineNumber}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <Label Content=": רשימת התחנות" HorizontalContentAlignment="Right" HorizontalAlignment="Left" 
+                            VerticalAlignment="Center" Width="136" Height="26" Margin="174,25,0,314.6"/>
+                    <ListBox x:Name="StationsListBox" HorizontalAlignment="Left" Height="284" HorizontalContentAlignment="Right"
+                                Margin="27,56,0,0" VerticalAlignment="Top" Width="283" />
+                    <Button x:Name="AddLineButton" Content="הוסף קו" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0, 0, 20, 30" Click="AddLineButton_Click" Width="63" Grid.RowSpan="2"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <TextBox x:Name="searchBox" HorizontalAlignment="Left" Height="40" Margin="276,31,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="198" FontSize="24" PreviewKeyDown="tb_PreviewKeyDown"/>
+        <Label Content=":חיפוש לפי מספר תחנה" HorizontalAlignment="Left" Height="40" Margin="498,31,0,0" VerticalAlignment="Top" Width="216" FontSize="20"/>
+        <Button x:Name="searchButton" Content="חפש" HorizontalAlignment="Left" Height="40" Margin="142,31,0,0" VerticalAlignment="Top" Width="106" FontSize="20" Click="searchButton_Click"/>
     </Grid>
 </Window>

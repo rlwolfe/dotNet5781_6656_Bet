@@ -5,8 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_UI"
         mc:Ignorable="d"
-        Title="AddLineWindow" Height="450" Width="800">
+        Title="AddLineWindow" Height="750" Width="800" Loaded="Window_Loaded" Closing="Window_Closing">
     <Grid>
-        
+        <Button x:Name="AddLineButton" Content="הוסיף קו" HorizontalAlignment="Left" Height="51" Margin="423,647,0,0" VerticalAlignment="Top" Width="147" FontSize="20" Click="AddLineButton_Click"/>
+        <TextBox x:Name="tbLineNumber" HorizontalAlignment="Left" Height="38" Margin="216,39,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="175" FontSize="24" PreviewKeyDown="tb_PreviewKeyDown" MaxLength="3" />
+        <Label x:Name="label1" Content=":מספר קו" HorizontalAlignment="Left" Height="38" Margin="444,39,0,0" VerticalAlignment="Top" Width="140" FontSize="22"/>
+        <ComboBox x:Name="cbArea" HorizontalAlignment="Left" Height="39" Margin="216,101,0,0" VerticalAlignment="Top" Width="175" ItemsSource="{Binding Areas}"/>
+        <Label x:Name="label2" Content=":אזור" HorizontalAlignment="Left" Height="38" Margin="444,101,0,0" VerticalAlignment="Top" Width="140" FontSize="22"/>
+        <ComboBox x:Name="cbFirstStop" HorizontalAlignment="Left" Height="38" Margin="216,173,0,0" VerticalAlignment="Top" Width="175"/>
+        <Label x:Name="label3" Content=":תחנה ראשונה" HorizontalAlignment="Left" Height="38" Margin="444,173,0,0" VerticalAlignment="Top" Width="150" FontSize="22"/>
+        <ComboBox x:Name="cbLastStop" HorizontalAlignment="Left" Height="38" Margin="216,236,0,0" VerticalAlignment="Top" Width="175"/>
+        <Label x:Name="label4" Content=":תחנה אחרונה" HorizontalAlignment="Left" Height="38" Margin="444,236,0,0" VerticalAlignment="Top" Width="150" FontSize="22"/>
+        <ListBox x:Name="LineStationsListBox" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Height="158" Margin="35,469,0,0" VerticalAlignment="Top" Width="289" ItemsSource="{Binding AllStationsOfLine}"/>
+        <Label Content=": רשימת התחנות בקו" HorizontalAlignment="Left" Margin="116,429,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Right" FontSize="22"/>
+        <Label Content=": רשימת כל התחנות" HorizontalAlignment="Left" Margin="550,429,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Right" FontSize="22"/>
+        <ListBox x:Name="AllStationsListBox" HorizontalAlignment="Left" HorizontalContentAlignment="Right"  Height="158" Margin="461,469,0,0" VerticalAlignment="Top" Width="289"/>
+        <Button x:Name="AddButton" Content="&lt;&lt; הוסף" HorizontalAlignment="Left" Margin="358,515,0,0" VerticalAlignment="Top" Width="73" Click="AddButton_Click"/>
+        <Button x:Name="RemoveButton" Content="הורד &gt;&gt;" HorizontalAlignment="Left" Margin="358,563,0,0" VerticalAlignment="Top" Width="73" Click="RemoveButton_Click"/>
+        <TextBox x:Name="tbTotalDistance" Width="175" VerticalAlignment="Center" Text="{Binding TotalDistance, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Margin="0,355,81.6,319.8" Height="38" HorizontalAlignment="Right" Grid.Column="0" FontSize="24" PreviewKeyDown="tb_PreviewKeyDown"/>
+        <TextBox x:Name="tbTotalTime" Width="155" VerticalAlignment="Center" Text="{Binding TotalTime, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Margin="0,355,504.6,319.8" Height="38" HorizontalAlignment="Right" Grid.Column="0" FontSize="24" PreviewKeyDown="tb_PreviewKeyDown"/>
+        <Label x:Name="LabelTotalDist" Content="מרחק כולל" HorizontalAlignment="Left" Height="40" Margin="605,315,0,0" VerticalAlignment="Top" Width="106" FontSize="20"/>
+        <Label x:Name="LabelTotalTime" Content="זמן נסיעה כולל" HorizontalAlignment="Left" Height="40" Margin="153,315,0,0" VerticalAlignment="Top" Width="136" FontSize="20"/>
+        <Button x:Name="CloseButton" Content="סגור" HorizontalAlignment="Left" Height="51" Margin="216,647,0,0" VerticalAlignment="Top" Width="147" FontSize="20" Click="CloseButton_Click"/>
     </Grid>
 </Window>

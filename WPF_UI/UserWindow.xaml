@@ -5,8 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_UI"
         mc:Ignorable="d"
-        Title="UserWindow" Height="450" Width="800">
+        Title="UserWindow" Height="400" Width="400">
     <Grid>
-        
+        <Label x:Name="userLoginLabel" Content="כניסה למשתמש" Height="66" Margin="63,47,63,0" VerticalAlignment="Top" FontSize="36"/>
+        <Label x:Name="userLabel" Content=":שם משתמש" HorizontalAlignment="Left" Height="37" Margin="220,148,0,0" VerticalAlignment="Top" Width="98" FontSize="15"/>
+        <Label x:Name="userLabel_Copy" Content=":סיסמה" HorizontalAlignment="Left" Height="37" Margin="220,208,0,0" VerticalAlignment="Top" Width="58" FontSize="15"/>
+        <TextBox x:Name="tbUser" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="95,148,0,0" FontSize="16"/>
+        <PasswordBox x:Name="tbPass" HorizontalAlignment="Left" Height="23" Margin="95,208,0,0" VerticalAlignment="Top" Width="120" FontSize="15"/>
+        <Button x:Name="EnterButton" Content="כניסה למערכת" HorizontalAlignment="Left" Height="35" Margin="34,272,0,0" VerticalAlignment="Top" Width="106" FontSize="15" Click="EnterButton_Click"/>
     </Grid>
 </Window>

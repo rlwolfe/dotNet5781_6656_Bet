@@ -5,8 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_UI"
         mc:Ignorable="d"
-        Title="DisplayBusLinesWindow" Height="450" Width="800">
+        Title="DisplayBusLinesWindow" Height="300" Width="400">
     <Grid>
-        
+        <Button x:Name="AddLineButton" Content="הוסיף קו לתחנה" HorizontalAlignment="Right" Height="34" Margin="0,27,17,0" VerticalAlignment="Top" Width="102" Click="AddLineButton_Click"/>
+        <Button x:Name="DeleteLineButton" Content="מחק קו מהתחנה" HorizontalAlignment="Left" Height="34" Margin="17,27,0,0" VerticalAlignment="Top" Width="102" Click="DeleteLineButton_Click" IsEnabled="{Binding ElementName=lbBusLines, Path=SelectedItems.Count}"/>
+        <ListBox x:Name="lbBusLines" HorizontalAlignment="Center" Height="118" VerticalAlignment="Top" Width="257" Margin="68,102,68.6,0"/>
+
     </Grid>
 </Window>

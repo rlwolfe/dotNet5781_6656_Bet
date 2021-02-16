@@ -11,17 +11,27 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using BO;
+using BLApi;
 
 namespace WPF_UI
 {
-	/// <summary>
-	/// Interaction logic for UserWindow.xaml
-	/// </summary>
-	public partial class UserWindow : Window
-	{
-		public UserWindow()
-		{
-			InitializeComponent();
-		}
-	}
+    /// <summary>
+    /// Interaction logic for UserWindow.xaml
+    /// </summary>
+    public partial class UserWindow : Window
+    {
+        static IBL bl = BlFactory.GetBL();
+        public UserWindow()
+        {
+            InitializeComponent();
+        }
+
+        private void EnterButton_Click(object sender, RoutedEventArgs e)
+        {
+            LineTripWindow tripWindow = new LineTripWindow();
+            tripWindow.Show();
+            Close();
+        }
+    }
 }

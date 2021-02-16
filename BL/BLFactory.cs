@@ -4,9 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BL
+namespace BLApi
 {
-	class BLFactory
-	{
-	}
+    public static class BlFactory
+    {
+        public static IBL GetBL()
+        {
+            return BL.BLIMP.Instance;
+        }
+    }
 }

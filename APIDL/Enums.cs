@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace APIDL
+namespace DO
 {
-	class Enums
-	{
-	}
+    public enum BusStatus { Ready, Travelling, Refueling, underMaintenance }
+    public enum Areas { General, North, South, Center, Jerusalem }
+    public enum UserStatus { Director, Employee, Driver, Passenger }
 }

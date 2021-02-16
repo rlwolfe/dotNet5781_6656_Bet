@@ -4,9 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace APIDL
+namespace DO
 {
-	class IClonable
-	{
-	}
+    public interface IClonable { }
 }
