@@ -167,7 +167,18 @@ namespace WPF_UI
         }
         private void SearchBusList()
         {
+            //var temp = (from b in bl.GetAllBusLines()
+            //           where b.BusLineNumber == int.Parse(searchBox.Text)
+            //           select b).FirstOrDefault();
 
+            //if (temp != null)
+            //    BusLinesDg.SelectedItem = temp;
+            //else
+            //    MessageBox.Show("הקו לא נמצא");
+            //DataGridRow row = BusLinesDg.ItemContainerGenerator.ContainerFromItem(bl.GetAllBusLines().Where(b => b.BusLineNumber.ToString() == searchBox.Text).FirstOrDefault()) as DataGridRow;
+            
+            //BusLinesDg.SelectedItem = bl.GetAllBusLines().Where(b => b.BusLineNumber.ToString() == searchBox.Text).FirstOrDefault();
+            //BusLinesDg.SelectedItem = BusLinesDg.Items.IndexOf(searchBox);
         }
         private void SearchStopList()
         {

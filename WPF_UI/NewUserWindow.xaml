@@ -1,0 +1,19 @@
+﻿<Window x:Class="WPF_UI.NewUserWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF_UI"
+        mc:Ignorable="d"
+        Title="NewUserWindow" Height="250" Width="300" Closing="Window_Closing">
+    <Grid>
+        <Label x:Name="userLabel" Content=":שם משתמש" HorizontalAlignment="Left" Height="37" Margin="159,26,0,0" VerticalAlignment="Top" Width="98" FontSize="15"/>
+        <Label x:Name="passLabel" Content=":סיסמה" HorizontalAlignment="Left" Height="37" Margin="159,86,0,0" VerticalAlignment="Top" Width="58" FontSize="15"/>
+        <TextBox x:Name="tbUser" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="34,26,0,0" FontSize="16"/>
+        <TextBox x:Name="tbPass" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="34,86,0,0" FontSize="16"/>
+        <Button x:Name="AddButton" Content="הוסיף משתמש" HorizontalAlignment="Center" Height="32" Margin="0,169,0,0" VerticalAlignment="Top" Width="133" FontSize="20" Click="AddButton_Click"/>
+        <CheckBox x:Name="WorkerCheckBox" HorizontalAlignment="Right" Height="20" Margin="0,130,51.6,0" VerticalAlignment="Top" Width="20"/>
+        <Label x:Name="LabelCheckBox"  Content="עובד" HorizontalAlignment="Left" Height="37" Margin="184,123,0,0" VerticalAlignment="Top" Width="33"/>
+
+    </Grid>
+</Window>

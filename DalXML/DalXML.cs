@@ -25,6 +25,7 @@ namespace DL
         string lineStationsPath = @"LineStationXml.xml";
         string idPath = @"IdXml.xml";
         string lineTripPath = @"LineTripXml.xml";
+        string UsersPath = @"UserPassXml.xml";
         #endregion
 
         #region BusStation
@@ -291,7 +292,8 @@ namespace DL
             XElement lineStationElem = new XElement("LineStation",
                                           new XElement("LineId", lineStation.LineId.ToString()),
                                           new XElement("StationKey", lineStation.StationKey.ToString()),
-                                          new XElement("RankInLine", lineStation.RankInLine.ToString()));
+                                          new XElement("RankInLine", GetAllLineStationsBy(ls =>
+                                                                        ls.LineId == lineStation.LineId).Count().ToString()));
 
             //Adding this XElement to busStations' xml file
             lineStationsRootElem.Add(lineStationElem);
@@ -351,16 +353,20 @@ namespace DL
         public IEnumerable<LineStation> GetAllLineStationsBy(Predicate<LineStation> predicate)
         {
             XElement lineStationsRootElem = XMLTools.LoadListFromXMLElement(lineStationsPath);
-            return from lineStat in lineStationsRootElem.Elements()
-                   let ls = new LineStation()
-                   {
-                       LineId = Convert.ToInt32(lineStat.Element("LineId").Value),
-                       StationKey = Convert.ToInt32(lineStat.Element("StationKey").Value),
-                       RankInLine = Convert.ToInt32(lineStat.Element("RankInLine").Value)
-                   }
-                   where predicate(ls)
-                   select ls;
-        }
+
+            List<LineStation> myLineStation = (from lineStat in lineStationsRootElem.Elements()
+											   let ls = new LineStation()
+											   {
+												   LineId = Convert.ToInt32(lineStat.Element("LineId").Value),
+												   StationKey = Convert.ToInt32(lineStat.Element("StationKey").Value),
+												   RankInLine = Convert.ToInt32(lineStat.Element("RankInLine").Value)
+											   }
+											   where predicate(ls)
+											   select ls).ToList();
+            //if (myLineStation == null)
+
+            return myLineStation;
+		}
 
         public LineStation GetLineStation(int lineId, int stationKey)
         {
@@ -444,7 +450,6 @@ namespace DL
                        AverageJourneyTime = double.Parse(fs.Element("AverageJourneyTime").Value)
                    };
         }
-
         public IEnumerable<FollowingStations> GetAllFollowingStationsBy(Predicate<FollowingStations> predicate)
         {
             XElement followingStationsRootElem = XMLTools.LoadListFromXMLElement(followingStationsPath);
@@ -488,7 +493,7 @@ namespace DL
 
         public void UpdateFollowingStations(BusStation busStation1, BusStation busStation2, Action<FollowingStations> update)
         {
-
+            UpdateFollowingStations(busStation1, busStation2);
         }
         #endregion
 
@@ -521,7 +526,8 @@ namespace DL
             XElement lineTripRootElem = XMLTools.LoadListFromXMLElement(lineTripPath);
 
             LineTrip myNewLineTrip = (from lineTrip in lineTripRootElem.Elements()
-                                      where Convert.ToInt32(lineTrip.Element("LineIdTrip").Value) == lineId //&& lineTrip.Element("Destination").Value
+                                      where Convert.ToInt32(lineTrip.Element("LineIdTrip").Value) == lineId
+                                      && Convert.ToInt32(lineTrip.Element("StationKey").Value) == stationKey
                                       select new LineTrip()
                                       {
                                           TripId = (Convert.ToInt32(lineTrip.Element("tripId").Value)),
@@ -551,24 +557,29 @@ namespace DL
                         LineNumber = Convert.ToInt32(lineTrip.Element("LineNumber").Value),
                         LineIdTrip = Convert.ToInt32(lineTrip.Element("LineIdTrip").Value),
                         StationKey = Convert.ToInt32(lineTrip.Element("StationKey").Value),
-                        Departure = Convert.ToDateTime(lineTrip.Element("Departure").Value),
+                        Departure = Convert.ToDateTime((Convert.ToDateTime(lineTrip.Element("Departure").Value).ToShortTimeString())),
                         Frequency = Convert.ToInt32(lineTrip.Element("Frequency").Value),
                         Destination = lineTrip.Element("Destination").Value
                     }).ToList();
         }
         public void AddLineTrip(LineTrip trip)
         {
+            XElement idRootElem = XMLTools.LoadListFromXMLElement(idPath);
             XElement lineTripRootElem = XMLTools.LoadListFromXMLElement(lineTripPath);
 
+            XElement elementId = (from id in idRootElem.Elements()
+                                  where id.Element("Type").Value == "lineTrip"
+                                  select id).FirstOrDefault();
+
             LineTrip myLineTrip = (from lineTrip in lineTripRootElem.Elements()
-                                   where Convert.ToInt32(lineTrip.Element("Id").Value) == trip.TripId
+                                   where Convert.ToInt32(lineTrip.Element("tripId").Value) == trip.TripId
                                    select new LineTrip()
                                    {
                                        TripId = Convert.ToInt32(lineTrip.Element("tripId").Value),
                                        LineNumber = Convert.ToInt32(lineTrip.Element("LineNumber").Value),
                                        LineIdTrip = Convert.ToInt32(lineTrip.Element("LineIdTrip").Value),
                                        StationKey = Convert.ToInt32(lineTrip.Element("StationKey").Value),
-                                       Departure = Convert.ToDateTime(lineTrip.Element("Departure").Value),
+                                       Departure = Convert.ToDateTime(Convert.ToDateTime(lineTrip.Element("Departure").Value).ToShortTimeString()),
                                        Frequency = Convert.ToInt32(lineTrip.Element("Frequency").Value),
                                        Destination = lineTrip.Element("Destination").Value
                                    }).FirstOrDefault();
@@ -581,14 +592,26 @@ namespace DL
                                           new XElement("LineNumber", trip.LineNumber.ToString()),
                                           new XElement("LineIdTrip", trip.LineIdTrip.ToString()),
                                           new XElement("StationKey", trip.StationKey.ToString()),
-                                          new XElement("Departure", trip.Departure.ToString()),
+                                          new XElement("Departure", trip.Departure.ToShortTimeString()),
                                           new XElement("Frequency", trip.Frequency.ToString()),
                                           new XElement("Destination", trip.Destination.ToString()));
+            if (trip.TripId == 0)
+                lineTripElem.SetElementValue("tripId", Convert.ToInt32(elementId.Element("Value").Value) + 1);
+
+            elementId.Element("Value").Value = (Convert.ToInt32(elementId.Element("Value").Value) + 1).ToString();
+            XMLTools.SaveListToXMLElement(idRootElem, idPath);
 
             lineTripRootElem.Add(lineTripElem);
-            XMLTools.SaveListToXMLElement(lineTripRootElem, lineTripPath); ;
+            XMLTools.SaveListToXMLElement(lineTripRootElem, lineTripPath);
 
-            lineTripRootElem.Add(lineTripElem);
+            if (trip.StationKey == GetLine(trip.LineIdTrip).FirstStationKey)
+            {
+                foreach (LineStation station in GetAllLineStationsBy(ls => ls.LineId == trip.LineIdTrip))
+                {
+                    if (station.StationKey != trip.StationKey)
+                        AddLineTrip(trip.LineIdTrip, station.StationKey);
+                }
+            }
         }
         public LineTrip AddLineTrip(int lineId, int stationKey)
 		{
@@ -598,7 +621,24 @@ namespace DL
             XElement elementId = (from id in idRootElem.Elements()
                                   where id.Element("Type").Value == "lineTrip"
                                   select id).FirstOrDefault();
-            
+
+            LineTrip myLineTrip = (from lineTrip in lineTripRootElem.Elements()
+                                   where Convert.ToInt32(lineTrip.Element("LineIdTrip").Value) == lineId
+                                   && Convert.ToInt32(lineTrip.Element("StationKey").Value) == stationKey
+                                   select new LineTrip()
+                                   {
+                                       TripId = Convert.ToInt32(lineTrip.Element("tripId").Value),
+                                       LineNumber = Convert.ToInt32(lineTrip.Element("LineNumber").Value),
+                                       LineIdTrip = Convert.ToInt32(lineTrip.Element("LineIdTrip").Value),
+                                       StationKey = Convert.ToInt32(lineTrip.Element("StationKey").Value),
+                                       Departure = Convert.ToDateTime(Convert.ToDateTime(lineTrip.Element("Departure").Value).ToShortTimeString()),
+                                       Frequency = Convert.ToInt32(lineTrip.Element("Frequency").Value),
+                                       Destination = lineTrip.Element("Destination").Value
+                                   }).FirstOrDefault();
+
+            if (myLineTrip != null)
+                return myLineTrip;
+
             XElement newLineTripElem = new XElement("LineTrip",
                                           new XElement("tripId", Convert.ToInt32(elementId.Element("Value").Value) + 1),
                                           new XElement("LineNumber", GetLine(lineId).BusLineNumber),
@@ -610,6 +650,18 @@ namespace DL
 
             elementId.Element("Value").Value = (Convert.ToInt32(elementId.Element("Value").Value) + 1).ToString();
             XMLTools.SaveListToXMLElement(idRootElem, idPath);
+
+            lineTripRootElem.Add(newLineTripElem);
+            XMLTools.SaveListToXMLElement(lineTripRootElem, lineTripPath);
+
+            if (stationKey == GetLine(lineId).FirstStationKey)
+			{
+                foreach (LineStation station in GetAllLineStationsBy(ls => ls.LineId == lineId))
+                {
+                    if (station.StationKey != stationKey)
+                        AddLineTrip(lineId, station.StationKey);
+                }
+			}
 
             return new LineTrip()
 			{
@@ -650,6 +702,62 @@ namespace DL
                 totalDist += GetFollowingStations(GetStation(stop1.StationKey), GetStation(stop2.StationKey)).AverageJourneyTime;
             }
             return TimeSpan.FromMinutes(totalDist);
+        }
+        #endregion
+
+        #region User
+        public string AddNewUser(string name, string password, bool isAdmin)
+		{
+            XElement UsersRootElem = XMLTools.LoadListFromXMLElement(UsersPath);
+            XElement user = (from u in UsersRootElem.Elements()
+                                  where u.Element("Name").Value == name
+                                  select u).FirstOrDefault();
+
+            if (user != null)
+                return "שם משתמש כבר קיים";
+
+            XElement userElem = new XElement("User",
+                                new XElement("Type", isAdmin ? "Employee" : "Passenger"),
+                                new XElement("Name", name),
+                                new XElement("Password", password));
+
+            UsersRootElem.Add(userElem);
+            XMLTools.SaveListToXMLElement(UsersRootElem, UsersPath);
+
+            return "המשתמש הוסף בהצלחה";
+        }
+
+        public bool UserVerified(string name, string password)
+		{
+            XElement UsersRootElem = XMLTools.LoadListFromXMLElement(UsersPath);
+            User user = (from u in UsersRootElem.Elements()
+						   where u.Element("Name").Value == name && u.Element("Password").Value == password
+						   select new User()
+						   {
+							   UserName = u.Element("Name").Value,
+							   Password = u.Element("Password").Value,
+                               UserStatus = (UserStatus)Enum.Parse(typeof(UserStatus), u.Element("Type").Value)
+                           }).FirstOrDefault();
+
+            if (user == null)
+                return false;
+
+            return true;
+        }
+
+        public bool UserAdmin(string name)
+		{
+            XElement UsersRootElem = XMLTools.LoadListFromXMLElement(UsersPath);
+            User tempUser = (from u in UsersRootElem.Elements()
+							 where u.Element("Name").Value == name
+							 select new User()
+							 {
+								 UserName = u.Element("Name").Value,
+								 Password = u.Element("Password").Value,
+								 UserStatus = (UserStatus)Enum.Parse(typeof(UserStatus), u.Element("Type").Value)
+							 }).FirstOrDefault();
+
+            return tempUser.UserStatus == (UserStatus)Enum.Parse(typeof(UserStatus), "Employee");
         }
         #endregion
     }

@@ -47,6 +47,7 @@
     <Compile Include="BusStation.cs" />
     <Compile Include="DeepCopyUtilities.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="FollowingStations.cs" />
     <Compile Include="IBL.cs" />
     <Compile Include="LineStation.cs" />
     <Compile Include="LineTrip.cs" />

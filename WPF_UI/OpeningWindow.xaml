@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_UI"
         mc:Ignorable="d"
-        Title="OpeningWindow" Height="140" Width="200">
+        Title="OpeningWindow" Height="140" Width="200" Loaded="Window_Loaded">
     <Grid>
         <Button x:Name="manageButton" Content="ניהול" Height="39" Margin="0,21,9.6,0" VerticalAlignment="Top" FontSize="20" Click="manageButton_Click" HorizontalAlignment="Right" Width="80"/>
         <Button x:Name="rideButton" Content="נוסע" HorizontalAlignment="Left" Height="39" Margin="10,21,0,0" VerticalAlignment="Top" Width="80" FontSize="20" Click="rideButton_Click"/>
-        <Button x:Name="exitButton" Content="יציאה" Height="28" Margin="69,0,70.6,10.4" VerticalAlignment="Bottom" FontSize="16" Click="exitButton_Click"/>
+        <Button x:Name="exitButton" Content="חזרה" Height="28" Margin="69,0,70.6,10.4" VerticalAlignment="Bottom" FontSize="16" Click="exitButton_Click"/>
     </Grid>
 </Window>

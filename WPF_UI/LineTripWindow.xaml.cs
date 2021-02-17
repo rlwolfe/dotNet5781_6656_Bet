@@ -35,7 +35,7 @@ namespace WPF_UI
             tbRunningRate.Text = rate.ToString();
 
             lbStations.ItemsSource = from station in bl.GetAllBusStations()
-                                     select " תחנה " + station.BusStationKey + " : " + station.StationName;
+                                     select "תחנה " + station.BusStationKey + " : " + station.StationName;
 
             foreach (LineTrip trip in bl.GetAllLineTrips())
             {
@@ -129,7 +129,7 @@ namespace WPF_UI
             if (lb.SelectedIndex != -1)
             {
                 string station = lb.SelectedItem as string;
-                BusStation busStation = bl.GetBusStation(int.Parse(station.Substring(6, 5)));
+                BusStation busStation = bl.GetBusStation(int.Parse(station.Substring(5, 5)));
 
                 List<string> timesList = (from time in timeInfo
                                           where busStation.BusStationKey == int.Parse(time[2])

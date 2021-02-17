@@ -24,6 +24,12 @@ namespace WPF_UI
             InitializeComponent();
         }
 
+		private void Window_Loaded(object sender, RoutedEventArgs e)
+		{
+            rideButton.IsEnabled = !bool.Parse(DataContext.ToString());
+            manageButton.IsEnabled = bool.Parse(DataContext.ToString());
+        }
+
         private void rideButton_Click(object sender, RoutedEventArgs e)
         {
             LineTripWindow lineTripWindow = new LineTripWindow();
@@ -40,7 +46,9 @@ namespace WPF_UI
 
         private void exitButton_Click(object sender, RoutedEventArgs e)
         {
+            UserWindow userWindow = new UserWindow();
+            userWindow.Show();
             Close();
         }
-    }
+	}
 }

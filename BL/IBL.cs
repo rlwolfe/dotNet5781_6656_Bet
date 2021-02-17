@@ -38,6 +38,11 @@ namespace BLApi
         void DeleteLineStation(BO.LineStation lineStation);
         #endregion
 
+        #region FollowingStations
+        BO.LineTrip LineTripDoBoAdapter(DO.LineTrip lineTripDo);
+        BO.FollowingStations GetFollowingStations(BO.BusStation station1, BO.BusStation station2);
+        #endregion
+
         #region LineTrip
         BO.LineTrip GetLineTrip(int lineId, int stationKey);
         IEnumerable<BO.LineTrip> GetTripsForABus(BO.BusLine line);
@@ -47,6 +52,12 @@ namespace BLApi
         BO.LineTrip AddLineTrip(int lineId, int stationKey);
         void DeleteLineTrip(BO.LineTrip trip);
         TimeSpan CalculateDistance(BO.LineTrip trip);
+        #endregion
+        
+        #region User
+        string AddNewUser(string name, string password, bool isAdmin);
+        bool UserVerified(string name, string password);
+        bool UserAdmin(string name);
         #endregion
     }
 }

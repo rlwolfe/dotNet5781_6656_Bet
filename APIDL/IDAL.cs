@@ -60,12 +60,13 @@ namespace APIDL
         DO.LineTrip AddLineTrip(int lineId, int stationKey);
         void DeleteLineTrip(LineTrip trip);
         TimeSpan CalculateDistance(LineTrip trip);
-		#endregion
+        #endregion
 
-		#region User
+        #region User
+        string AddNewUser(string name, string password, bool isAdmin);
+        bool UserVerified(string name, string password);
+        bool UserAdmin(string name);
+        #endregion
 
-
-		#endregion
-
-	}
+    }
 }

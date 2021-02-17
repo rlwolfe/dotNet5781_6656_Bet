@@ -29,11 +29,28 @@ namespace WPF_UI
 
         private void EnterButton_Click(object sender, RoutedEventArgs e)
         {
-            OpeningWindow openingWindow = new OpeningWindow();
-            openingWindow.Show();
-            //LineTripWindow tripWindow = new LineTripWindow();
-            //tripWindow.Show();
+            if (bl.UserVerified(tbUser.Text, tbPass.Password))
+            {
+                OpeningWindow openingWindow = new OpeningWindow() { DataContext = bl.UserAdmin(tbUser.Text) };
+                openingWindow.Show();
+                Close();
+            }
+            else
+                MessageBox.Show("שם משתמש או סיסמה שגוי");
+        }
+
+		private void NewUserButton_Click(object sender, RoutedEventArgs e)
+        {
+            NewUserWindow newUserWindow = new NewUserWindow();
+            newUserWindow.Show();
             Close();
         }
-    }
+
+		private void ChangePassButton_Click(object sender, RoutedEventArgs e)
+		{
+            //ChangePassWindow changePassWindow = new ChangePassWindow();
+            //changePassWindow.Show();
+            //Close();
+        }
+	}
 }

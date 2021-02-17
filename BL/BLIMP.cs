@@ -328,6 +328,22 @@ namespace BL
 		}
 		#endregion
 
+		#region FollowingStations
+
+		BO.FollowingStations FollowingStationDoBoAdapter(DO.FollowingStations followingStationsDo)
+		{
+			BO.FollowingStations followingStationsBo = new BO.FollowingStations();
+			followingStationsDo.CopyPropertiesTo(followingStationsBo);
+			return followingStationsBo;
+		}
+
+		public BO.FollowingStations GetFollowingStations(BO.BusStation station1, BO.BusStation station2)
+		{
+			return FollowingStationDoBoAdapter(dl.GetFollowingStations(
+					BusStationBoDoAdapter(station1), BusStationBoDoAdapter(station2)));
+		}
+		#endregion
+
 		#region LineTrip
 		DO.LineTrip LineTripBoDoAdapter(BO.LineTrip lineTripBo)
 		{
@@ -335,7 +351,7 @@ namespace BL
 			lineTripBo.CopyPropertiesTo(lineTripDo);
 			return lineTripDo;
 		}
-		BO.LineTrip LineTripDoBoAdapter(DO.LineTrip lineTripDo)
+		public BO.LineTrip LineTripDoBoAdapter(DO.LineTrip lineTripDo)
 		{
 			BO.LineTrip lineTripBo = new BO.LineTrip();
 			lineTripDo.CopyPropertiesTo(lineTripBo);
@@ -378,6 +394,23 @@ namespace BL
 		public TimeSpan CalculateDistance(BO.LineTrip trip)
 		{
 			return dl.CalculateDistance(LineTripBoDoAdapter(trip));
+		}
+		#endregion
+
+		#region User
+		public string AddNewUser(string name, string password, bool isAdmin)
+		{
+			return dl.AddNewUser(name, password, isAdmin);
+		}
+
+		public bool UserVerified(string name, string password)
+		{
+			return UserVerified(name, password);
+		}
+
+		public bool UserAdmin(string name)
+		{
+			return dl.UserAdmin(name);
 		}
 		#endregion
 	}

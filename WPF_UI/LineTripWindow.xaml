@@ -16,7 +16,7 @@
         <ListBox x:Name="lbStations" HorizontalAlignment="Left" Height="340" Margin="33,55,0,0" VerticalAlignment="Top" Width="300" SelectionChanged="lbStations_SelectionChanged"/>
         <Label x:Name="stationsLabel" Content="תחנות" HorizontalAlignment="Left" Height="40" Margin="138,10,0,0" VerticalAlignment="Top" Width="89" FontSize="24"/>
         <ListBox x:Name="lbBuses" HorizontalAlignment="Left" Height="243" Margin="374,152,0,0" VerticalAlignment="Top" Width="210"/>
-        <Label x:Name="busesLabel" Content=":קווים שעוברים בקרוב" HorizontalAlignment="Left" Height="39" Margin="589,132,-0.4,0" VerticalAlignment="Top" Width="205" FontSize="20"/>
+        <Label x:Name="busesLabel" Content=":קווים שעוברים בקרוב" HorizontalAlignment="Left" Height="39" Margin="589,152,-0.4,0" VerticalAlignment="Top" Width="205" FontSize="20"/>
         <TextBox x:Name="tbRunningRate" HorizontalAlignment="Left" Height="30" Margin="550,96,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75" FontSize="20" PreviewKeyDown="tb_PreviewKeyDown"/>
         <Label Content="-שעה אחת שווה ל" HorizontalAlignment="Left" Height="30" Margin="630,97,0,0" VerticalAlignment="Top" Width="142" FontSize="16"/>
         <Label Content="שניות" HorizontalAlignment="Left" Height="30" Margin="493,96,0,0" VerticalAlignment="Top" Width="50" FontSize="16"/>
