@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using System.Windows;
-using BLApi;
+﻿using BLApi;
 using BO;
+using System.Linq;
+using System.Windows;
 
 namespace WPF_UI
 {

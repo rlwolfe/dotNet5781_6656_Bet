@@ -1,8 +1,8 @@
-﻿using System;
+﻿using APIDL;
 using BLApi;
-using APIDL;
-using System.Linq;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BL
 {
@@ -382,10 +382,9 @@ namespace BL
 		{
 			dl.AddLineTrip(LineTripBoDoAdapter(trip));
 		}
-		public BO.LineTrip AddLineTrip(int lineId, int stationKey)
+		public BO.LineTrip AddLineTrip(int lineId, int stationKey, DateTime time)
 		{
-			return GetLineTrip(lineId, stationKey);
-			//return dl.AddLineTrip(lineId, stationKey);
+			return LineTripDoBoAdapter(dl.AddLineTrip(lineId, stationKey, time));
 		}
 		public void DeleteLineTrip(BO.LineTrip trip)
 		{
@@ -405,7 +404,7 @@ namespace BL
 
 		public bool UserVerified(string name, string password)
 		{
-			return UserVerified(name, password);
+			return dl.UserVerified(name, password);
 		}
 
 		public bool UserAdmin(string name)

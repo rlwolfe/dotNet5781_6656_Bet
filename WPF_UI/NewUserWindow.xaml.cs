@@ -1,5 +1,5 @@
-﻿using System.Windows;
-using BLApi;
+﻿using BLApi;
+using System.Windows;
 
 namespace WPF_UI
 {
@@ -16,8 +16,13 @@ namespace WPF_UI
 
 		private void AddButton_Click(object sender, RoutedEventArgs e)
 		{
-			bl.AddNewUser(tbUser.Text, tbPass.Text, WorkerCheckBox.IsChecked.Value);
-			Close();
+			if (tbUser.Text == "" || tbPass.Text == "")
+				MessageBox.Show("תמלא את השדות");
+			else
+			{
+				bl.AddNewUser(tbUser.Text, tbPass.Text, WorkerCheckBox.IsChecked.Value);
+				Close();
+			}
 		}
 
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
