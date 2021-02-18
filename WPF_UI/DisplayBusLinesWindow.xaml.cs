@@ -7,6 +7,7 @@ namespace WPF_UI
 {
 	/// <summary>
 	/// Interaction logic for DisplayBusLinesWindow.xaml
+	/// shows all details for the bus selected
 	/// </summary>
 	public partial class DisplayBusLinesWindow : Window
 	{

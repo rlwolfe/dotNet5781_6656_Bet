@@ -4,6 +4,7 @@ namespace WPF_UI
 {
 	/// <summary>
 	/// Interaction logic for OpeningWindow.xaml
+	/// the window allows for users set as riders only to access the simulation and the employees to only access the 'back end' bus/station lists
 	/// </summary>
 	public partial class OpeningWindow : Window
 	{

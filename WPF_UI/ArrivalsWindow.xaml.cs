@@ -9,6 +9,7 @@ namespace WPF_UI
 {
 	/// <summary>
 	/// Interaction logic for ArrivalsWindow.xaml
+	/// shows all LineTrips that will arrive throughout the day at the bus station
 	/// </summary>
 	public partial class ArrivalsWindow : Window
 	{
@@ -17,7 +18,6 @@ namespace WPF_UI
 		{
 			InitializeComponent();
 		}
-
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
 			BusStation busStation = DataContext as BusStation;

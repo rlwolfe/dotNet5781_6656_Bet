@@ -107,6 +107,6 @@
         <Label Content=":חיפוש לפי מספר תחנה" HorizontalAlignment="Left" Height="40" Margin="498,31,0,0" VerticalAlignment="Top" Width="216" FontSize="20"/>
         <Button x:Name="searchButton" Content="חפש" HorizontalAlignment="Left" Height="40" Margin="142,31,0,0" VerticalAlignment="Top" Width="106" FontSize="20" Click="searchButton_Click"/>
         <Button x:Name="CancelButton" Content="בטל" HorizontalAlignment="Left" Height="40" Margin="20,32,0,0" VerticalAlignment="Top" Width="106" FontSize="20" Click="CancelButton_Click"/>
-        <Button x:Name="simButton" Content="לסימולציה" HorizontalAlignment="Left" Height="40" Margin="824,31,0,0" VerticalAlignment="Top" Width="124" FontSize="24" Click="simButton_Click"/>
+        <Button x:Name="simButton" Content="לסימולציה" HorizontalAlignment="Left" Height="40" Margin="824,31,0,0" VerticalAlignment="Top" Width="124" FontSize="24" Click="simButton_Click" Visibility="Hidden"/>
     </Grid>
 </Window>

@@ -13,6 +13,9 @@ namespace WPF_UI
 {
 	/// <summary>
 	/// Interaction logic for LineTripWindow.xaml
+	/// Simulation window for bus stop time throughout the day
+	/// each station will show the buses arriving within the hour of when the simulation timer shows
+	/// the rate can be change to anytime up to an hour per second (3599 in the textbox + the one second from from real time)
 	/// </summary>
 	public partial class LineTripWindow : Window
 	{
@@ -35,65 +38,6 @@ namespace WPF_UI
 
 			lbStations.ItemsSource = from station in bl.GetAllBusStations()
 									 select "תחנה " + station.BusStationKey + " : " + station.StationName;
-
-			//List<LineTrip> LT = (from line in bl.GetAllBusLines()
-			//					 let station = bl.GetAllBusStationsBy(s => s.LinesThatPass.Contains(line.Id))
-			//					 select new LineTrip
-			//					 {
-			//						 Destination = bl.GetBusStation(line.LastStationKey).Address,
-			//						 Departure = new DateTime(2020, 1, 1, 5, 05, 0),
-			//						 Frequency = 55,
-			//						 LineIdTrip = line.Id,
-			//						 LineNumber = line.BusLineNumber,
-			//						 StationKey = line.FirstStationKey,
-			//						 TripId = 0
-			//					 }).ToList();
-
-			//List<LineTrip> additions = new List<LineTrip>();
-			//double travelTime;
-			//foreach (LineTrip lt in LT)
-			//{
-				//travelTime = 0;
-
-			//	for (int rank = 2; rank < bl.GetAllLineStationsBy(l => l.LineId == lt.LineIdTrip).Count(); rank++)
-			//	{
-			//		BusStation stop1 = bl.GetBusStation(bl.GetAllLineStationsBy(l => l.RankInLine == rank - 1 &&
-			//												l.LineId == lt.LineIdTrip).FirstOrDefault().StationKey);
-
-			//		BusStation stop2 = bl.GetBusStation(bl.GetAllLineStationsBy(l => l.RankInLine == rank &&
-			//												l.LineId == lt.LineIdTrip).FirstOrDefault().StationKey);
-
-			//		travelTime += bl.GetFollowingStations(stop1, stop2).AverageJourneyTime;
-
-			//		LineTrip temp = new LineTrip
-			//		{
-			//			Departure = lt.Departure.AddMinutes(travelTime),
-			//			StationKey = stop2.BusStationKey,
-			//			TripId = 0,
-			//			Destination = lt.Destination,
-			//			Frequency = lt.Frequency,
-			//			LineIdTrip = lt.LineIdTrip,
-			//			LineNumber = lt.LineNumber
-			//		};
-			//		additions.Add(temp);
-			//	}
-			//}
-			//LT.AddRange(additions);
-
-			//foreach (LineTrip lt in LT)
-			//	bl.AddLineTrip(lt.LineIdTrip, lt.StationKey, lt.Departure);
-
-			//for (TimeSpan iter = TimeSpan.Parse(.Departure.ToString(@"hh\:mm")); iter < new TimeSpan(24, 0, 0); iter = iter.Add(new TimeSpan(0, trip.Frequency, 0)))
-			//{
-			//	List<string> times = new List<string>();
-			//	times.Add(trip.LineNumber.ToString());
-			//	times.Add(iter.ToString(@"hh\:mm"));
-			//	times.Add(trip.StationKey.ToString());
-
-			//	timeInfo.Add(times);
-			//}
-			//foreach (LineTrip lt in LT)
-			//	bl.AddLineTrip(lt.LineIdTrip, lt.StationKey);
 		}
 
 		private void StartClock()
@@ -181,11 +125,6 @@ namespace WPF_UI
 										  select (lineId + "%" + "קו מספר: " + bl.GetBusLine(lineId).BusLineNumber
 										  + " מגיע בשעה - " + trip.Departure.ToString(@"hh\:mm"))).ToList();
 
-				//List<string> timesList = (from time in bl.GetAllLineTrips()
-				//						  where busStation.BusStationKey == time.StationKey
-				//						  select time.LineIdTrip + "%" + "קו מספר: " + time.LineNumber +
-				//						   " מגיע בשעה - " + time.Departure.ToString(@"hh\:mm")).ToList();
-
 				foreach (string line in timesList)
 				{
 					int lineId = int.Parse(line.Split('%')[0]);
@@ -209,12 +148,6 @@ namespace WPF_UI
 							lbBuses.Items.Add("קו מספר: " + bus + " מגיע בשעה - " + iter.ToString(@"hh\:mm"));
 					}
 				}
-				//LineTrip trip = from t in bl.GetAllLineTrips()
-				//                where t.StationKey == int.Parse(station.Substring(6, 5))
-				//                select "מגיע בעוד: " + t.Arrival + "דקות ";
-				//lbBuses.ItemsSource = from line in bl.GetAllBusLines()
-				//                      where line.AllStationsOfLine.Contains(int.Parse(station.Substring(6, 5)))
-				//                      select "קו: " + line.BusLineNumber + " : לכיוון " + bl.GetBusStation(line.LastStationKey).StationName;// + bl.CalculateDistance();
 				UpdateLayout();
 			}
 		}

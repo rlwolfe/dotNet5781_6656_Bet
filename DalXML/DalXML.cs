@@ -64,7 +64,11 @@ namespace DL
 			myStation.Remove();
 			XMLTools.SaveListToXMLElement(stationsRootElem, stationsPath);
 		}
-
+		/// <summary>
+		/// get methods for BusStations
+		/// get all, get all based on a linq request
+		/// and get specific
+		/// </summary>
 		public IEnumerable<BusStation> GetAllStations()
 		{
 			XElement stationsRootElem = XMLTools.LoadListFromXMLElement(stationsPath);
@@ -191,6 +195,12 @@ namespace DL
 			lineToDelete.Remove();
 			XMLTools.SaveListToXMLElement(linesRootElem, linesPath);
 		}
+		/// <summary>
+		/// get methods for BusLines
+		/// get all, get all based on a linq request
+		/// and get specific based off internal id of line
+		/// or the bus's line number and area
+		/// </summary>
 		public IEnumerable<BusLine> GetAllLines()
 		{
 			XElement linesRootElem = XMLTools.LoadListFromXMLElement(linesPath);
@@ -498,6 +508,13 @@ namespace DL
 		#endregion
 
 		#region LineTrip
+		/// <summary>
+		/// gets for the LineTrips
+		/// can be sent a trip or the info of the station and lineId
+		/// and one get for all trip in file
+		/// </summary>
+		/// <param name="tripId"></param>
+		/// <returns>requested trip/s</returns>
 		public LineTrip GetLineTrip(int tripId)
 		{
 			XElement lineTripRootElem = XMLTools.LoadListFromXMLElement(lineTripPath);
@@ -578,10 +595,7 @@ namespace DL
 					AddLineTrip(lt, false);
 					myNewLineTrip = lt;
 				}
-				//myNewLineTrip = AddLineTrip(lineId, stationKey, new DateTime(2020, 1, 1, 5, 25, 0));
 			}
-
-			//myNewLineTrip.Departure.Add(CalculateDistance(myNewLineTrip));
 			return myNewLineTrip;
 		}
 		public IEnumerable<LineTrip> GetAllLineTrips()
@@ -599,12 +613,18 @@ namespace DL
 						Destination = lineTrip.Element("Destination").Value
 					}).ToList();
 		}
+		/// <summary>
+		/// adds for the LineTrip
+		/// each method checks if the trip already exists, if it doesn't it creates it
+		/// then it checks if the given trip is from the first station of the bus,
+		/// if so, it continues through the bus route and creates trips for every other station
+		/// </summary>
+		/// <param>trip/trip+if station is first/lineId+ station+ time bus gets to station</param>
 		public void AddLineTrip(LineTrip trip, bool firstOnLine)
 		{
 			if (!firstOnLine)
 			{
 				double travelTime = 0;
-				//foreach (LineStation station in GetAllLineStationsBy(ls => ls.LineId == trip.LineIdTrip))
 				for (int rank = 2; rank < GetAllLineStationsBy(ls => ls.LineId == trip.LineIdTrip).Count(); rank++)
 				{
 					BusStation stop1 = GetStation(GetAllLineStationsBy(ls => ls.RankInLine == rank - 1 &&
@@ -670,7 +690,6 @@ namespace DL
 				AddLineTrip(trip, true);
 			}
 		}
-
 		public LineTrip AddLineTrip(int lineId, int stationKey, DateTime time)
 		{
 			XElement idRootElem = XMLTools.LoadListFromXMLElement(idPath);
@@ -719,15 +738,15 @@ namespace DL
 			}
 
 			return new LineTrip()
-			{
-				TripId = Convert.ToInt32(newLineTripElem.Element("tripId").Value),
-				LineNumber = GetLine(lineId).BusLineNumber,
-				LineIdTrip = lineId,
-				StationKey = stationKey,
-				Departure = Convert.ToDateTime(newLineTripElem.Element("Departure").Value),
-				Frequency = 120,
-				Destination = GetStation(GetLine(lineId).LastStationKey).Address
-			};
+					{
+						TripId = Convert.ToInt32(newLineTripElem.Element("tripId").Value),
+						LineNumber = GetLine(lineId).BusLineNumber,
+						LineIdTrip = lineId,
+						StationKey = stationKey,
+						Departure = Convert.ToDateTime(newLineTripElem.Element("Departure").Value),
+						Frequency = 120,
+						Destination = GetStation(GetLine(lineId).LastStationKey).Address
+					};
 		}
 		public void DeleteLineTrip(LineTrip trip)
 		{
@@ -743,6 +762,12 @@ namespace DL
 			myLineTrip.Remove();
 			XMLTools.SaveListToXMLElement(lineTripRootElem, lineTripPath);
 		}
+		/// <summary>
+		/// calculates the time it takes from one busStop to the next
+		/// so the arrival times of each station are accurate based off the first station's departure time
+		/// </summary>
+		/// <param name="LineTrip"></param>
+		/// <returns>the time calculated between bus stations</returns>
 		public TimeSpan CalculateDistance(LineTrip trip)
 		{
 			double totalDist = 0;
@@ -761,6 +786,13 @@ namespace DL
 		#endregion
 
 		#region User
+		/// <summary>
+		/// gets username, password and if the user is an employee or passenger
+		/// checks if the username is already taken, if not creates a new user
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="password"></param>
+		/// <returns>if the user was created or an error is not</returns>
 		public string AddNewUser(string name, string password, bool isAdmin)
 		{
 			XElement UsersRootElem = XMLTools.LoadListFromXMLElement(UsersPath);
@@ -781,7 +813,11 @@ namespace DL
 
 			return "המשתמש הוסף בהצלחה";
 		}
-
+		/// <summary>
+		/// checks if user is in the system and password matches
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns>if username and password match returns true</returns>
 		public bool UserVerified(string name, string password)
 		{
 			XElement UsersRootElem = XMLTools.LoadListFromXMLElement(UsersPath);
@@ -799,7 +835,11 @@ namespace DL
 
 			return true;
 		}
-
+		/// <summary>
+		/// checks if the user is an employee or a passenger, and accordingly allows them to only go to the part of system they are supposed to use
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
 		public bool UserAdmin(string name)
 		{
 			XElement UsersRootElem = XMLTools.LoadListFromXMLElement(UsersPath);
