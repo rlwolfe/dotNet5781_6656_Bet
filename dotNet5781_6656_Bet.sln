@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BL", "BL\BL.csproj", "{4B22
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DalXML", "DalXML\DalXML.csproj", "{94E1E00F-2E5E-4AD4-AEA6-691262FC5472}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DalObject", "DalObject\DalObject.csproj", "{34961CE7-8982-4D5E-AC18-5625523B98A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DS", "DS\DS.csproj", "{F286503B-9B39-4247-A6A9-CB8915B6135A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{94E1E00F-2E5E-4AD4-AEA6-691262FC5472}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94E1E00F-2E5E-4AD4-AEA6-691262FC5472}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{94E1E00F-2E5E-4AD4-AEA6-691262FC5472}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34961CE7-8982-4D5E-AC18-5625523B98A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34961CE7-8982-4D5E-AC18-5625523B98A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34961CE7-8982-4D5E-AC18-5625523B98A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34961CE7-8982-4D5E-AC18-5625523B98A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F286503B-9B39-4247-A6A9-CB8915B6135A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F286503B-9B39-4247-A6A9-CB8915B6135A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F286503B-9B39-4247-A6A9-CB8915B6135A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F286503B-9B39-4247-A6A9-CB8915B6135A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
